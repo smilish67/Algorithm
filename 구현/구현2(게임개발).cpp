@@ -1,13 +1,13 @@
 #include <stdio.h>
-
-int cnt=1, Xpos, Ypos,px,py;
+#include <time.h>
+int cnt, Xpos, Ypos,px,py;
 enum direction {
 		north,
 		east,
 		south,
 		west
 };
-enum direction dir;
+enum direction dir; 
 
 void changedir(), setpxpy(), back();
 
@@ -28,6 +28,7 @@ int main(void)
 		}
 	}
 	visit[Ypos][Xpos] = 1;
+	cnt++;
 	setpxpy();
 
 	while(1)
@@ -39,19 +40,23 @@ int main(void)
 			Ypos += py;
 			changedir();
 			cnt++;
+			printf("움직이기 (%d, %d)\n", Xpos, Ypos);
 		}
 		else if((visit[Ypos+1][Xpos]||maze[Ypos+1][Xpos])&&(visit[Ypos-1][Xpos]||maze[Ypos-1][Xpos])&&(visit[Ypos][Xpos+1]||maze[Ypos][Xpos+1])&&(visit[Ypos][Xpos-1]||maze[Ypos][Xpos-1]))
 		{
+			printf("%d 현재방향",dir); 
 			back();
+			printf("뒤로(%d, %d)\n", Xpos, Ypos);
 			if(maze[Xpos][Ypos]==1) goto shit;
 		}
 		else if(((visit[Ypos+py][Xpos+px])&&maze[Ypos+py][Xpos+px]==0)||maze[Ypos+py][Xpos+px])
 		{
+			printf("돌기\n");
 			changedir();
 		}
 	}
 	shit:
-	printf("%d", cnt);
+	printf("%d", end-start);
 }
 
 void changedir()
@@ -112,7 +117,7 @@ void back()
 			break;
 		
 		case west:
-			Xpos -=1;
+			Xpos +=1;
 			break;
 		
 		case south:
@@ -120,7 +125,7 @@ void back()
 			break;
 		
 		case east:
-			Xpos +=1;
+			Xpos -=1;
 			break;
 	}
 }
